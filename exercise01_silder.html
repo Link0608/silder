@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #silder{
+            width: 739px;
+            height: 419px;
+            position: relative;
+        }
+        #silder>img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* 透明度 */
+            opacity: 0;
+            transition:all 0.5s;
+        }
+        #silder>.cart>img{
+            position: absolute;
+            top: 50%;
+            margin-top: -20px;
+        }
+        .left{
+            left: 0;
+        }
+        .right{
+            right: 0;
+        }
+        #silder>img.active{
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="silder">
+        <img class="item active" src="./imgs/gm1-6.jpg" alt="">
+        <img class="item" src="./imgs/gm2-6.jpg" alt="">
+        <img class="item" src="./imgs/gm3-6.jpg" alt="">
+        <img class="item" src="./imgs/gm4-6.jpg" alt="">
+        <img class="item" src="./imgs/gm5-6.jpg" alt="">
+        <div class="cart">
+            <img class="left" src="./imgs/l1-6.png" alt="">
+            <img class="right" src="./imgs/r1-6.png" alt="">
+        </div>
+    </div>
+    <script>
+        var left = document.getElementsByClassName("left")[0];
+        var right = document.getElementsByClassName("right")[0];
+        var items = document.getElementsByClassName("item")
+        console.log(items)
+                        // v1.0 手动
+        // 点击左侧按钮时
+        // 将第一个图片的active类取消  给第五个图片加active
+        // 将第五个图片的active类取消  给第四个图片加active
+        // ...
+
+        // 点击右侧按钮时
+        // 将第一个图片的active类取消  给第二个图片加active
+        // 将第二个图片的active类取消  给第三个图片加active
+        // ...
+        // 将第五个图片的active类取消  给第一个图片加active
+
+        i = 0
+        left.onclick = function(){
+            items[i] .className = "item";
+            i --;
+            if(i<0){
+                i = items.length -1;
+            }
+            items[i].className = "item active";
+        }
+        right.onclick = function(){
+            items[i].className = "item";
+            i ++;
+            if(i == items.length){
+                i = 0;
+            }
+            items[i].className = "item active";
+        }
+
+        // v2.0自动
+        // 创建定时器 执行(点击右侧按钮)函数
+        // 鼠标移入停止定时器
+        var timerID = setInterval(right.onclick,1500);
+        var silder = document.getElementById("silder");
+        silder.onmouseover = function(){
+            clearInterval(timerID)
+        }
+        // 鼠标移出启动定时器
+        silder.onmouseout = function(){
+            // 覆盖覆盖全局变量
+            timerID = setInterval(right.onclick,1500);
+        }
+
+    </script>
+</body>
+</html>
